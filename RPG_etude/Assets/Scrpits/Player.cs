@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         camera = Camera.main;
-        animator = GetComponentInChildren<Animator>();
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
         //NavMeshAgent회전 제한
@@ -41,17 +41,34 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        if (Input.GetMouseButtonDown(1))
-            agent.velocity = Vector3.zero;
+        
+        //if (Input.GetMouseButtonDown(1))
+        //    agent.velocity = Vector3.zero;
         if (Input.GetMouseButton(1))
         {
             RaycastHit hit;
             if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                if (Vector3.Distance(animator.transform.position, hit.point) > 0.2f)
+                if (Vector3.Distance(transform.position, hit.point) > 0.2f)
                 {
+                    //if (agent.hasPath)
+                    {
+                        //Vector3 pp = hit.point - transform.position;
+                        //Vector3 p2 = destination - transform.position;
+                        Vector3 pp = transform.position-hit.point;
+                        Vector3 p2 = transform.position-destination;
+                        float dot, mag;
+                        dot = Vector3.Dot(pp, p2);
+                        mag = Vector3.Magnitude(pp) * Vector3.Magnitude(p2);
 
-                   
+                        if(dot >=0 && dot <mag)
+
+//Debug.Log(mag);
+                        Debug.Log(Mathf.Acos(Vector3.Dot(pp,p2)/Vector3.Magnitude(pp)/Vector3.Magnitude(p2))*Mathf.Rad2Deg);
+                    if(Mathf.Acos(Vector3.Dot(pp, p2) / Vector3.Magnitude(pp) / Vector3.Magnitude(p2)) * Mathf.Rad2Deg >= 5)
+                        agent.velocity = Vector3.zero;
+                    }
+
                     //이동
                     // agent.velocity = Vector3.zero;
                     agent.SetDestination(hit.point);
