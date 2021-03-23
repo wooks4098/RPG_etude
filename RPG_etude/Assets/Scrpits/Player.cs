@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     {
         camera = Camera.main;
         animator = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
+        agent = gameObject.GetComponentInChildren<NavMeshAgent>();
 
         //NavMeshAgent회전 제한
         agent.updateRotation = false;
@@ -51,32 +51,13 @@ public class Player : MonoBehaviour
             {
                 if (Vector3.Distance(transform.position, hit.point) > 0.2f)
                 {
-                    //if (agent.hasPath)
-                    {
-                        //Vector3 pp = hit.point - transform.position;
-                        //Vector3 p2 = destination - transform.position;
-                        Vector3 pp = transform.position-hit.point;
-                        Vector3 p2 = transform.position-destination;
-                        float dot, mag;
-                        dot = Vector3.Dot(pp, p2);
-                        mag = Vector3.Magnitude(pp) * Vector3.Magnitude(p2);
-
-                        if(dot >=0 && dot <mag)
-
-//Debug.Log(mag);
-                        Debug.Log(Mathf.Acos(Vector3.Dot(pp,p2)/Vector3.Magnitude(pp)/Vector3.Magnitude(p2))*Mathf.Rad2Deg);
-                    if(Mathf.Acos(Vector3.Dot(pp, p2) / Vector3.Magnitude(pp) / Vector3.Magnitude(p2)) * Mathf.Rad2Deg >= 5)
-                        agent.velocity = Vector3.zero;
-                    }
-
-                    //이동
-                    // agent.velocity = Vector3.zero;
+                    if (agent.hasPath)
+                        agent.acceleration = (agent.remainingDistance < 2f) ? 8f : 60f;
                     agent.SetDestination(hit.point);
                     destination = hit.point;
                     isMove = true;
                     animator.SetBool("isMove", true);
                 }
-
             }
         }
     }
