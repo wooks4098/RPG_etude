@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
 public class Player : MonoBehaviour
 {
-
     public float Speed;
     private bool isMove;
 
@@ -38,12 +36,9 @@ public class Player : MonoBehaviour
         Move();
         EndMoveCheck();
     }
-
+    #region click move
     void Move()
     {
-        
-        //if (Input.GetMouseButtonDown(1))
-        //    agent.velocity = Vector3.zero;
         if (Input.GetMouseButton(1))
         {
             RaycastHit hit;
@@ -81,32 +76,8 @@ public class Player : MonoBehaviour
                 //선형보간 함수를 이용해 부드러운 회전
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetangle, Time.deltaTime * 8.0f);
             }
-           
-
-
-
-
-
-            //if (agent.velocity.magnitude <= 0.2f)
-            //{
-            //    isMove = false;
-            //    animator.SetBool("isMove", false);
-            //    return;
-            //}
-
-            ////Vector3 dir = agent.desiredVelocity;
-            ////Quaternion targetangle = Quaternion.LookRotation(dir);
-            ////animator.transform.rotation = Quaternion.Slerp(transform.rotation, targetangle, Time.deltaTime * 8.0f);
-
-
-
-
-            //var dir = new Vector3(agent.steeringTarget.x, transform.position.y, agent.steeringTarget.z) - transform.position;
-            //animator.transform.forward = dir;
-
         }
-
     }
-
+    #endregion
 
 }
