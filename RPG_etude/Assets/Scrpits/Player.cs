@@ -6,9 +6,9 @@ public class Player : MonoBehaviour
 {
     public float Speed;
     private bool isMove;
+    private bool isDodge = true;
     [SerializeField]
-    private bool isDodge  = true;
-    private bool hasPath;
+    private float DodgeTime; //회피 쿨타임
     private Vector3 destination;
 
 
@@ -38,11 +38,15 @@ public class Player : MonoBehaviour
         Move();
         EndMoveCheck();
         Dodge();
+
     }
+
+
+
     #region click move
     void Move()
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1)&& isDodge)
         {
             RaycastHit hit;
             if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
@@ -82,29 +86,27 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+
+
     void Dodge()
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
             if (isDodge)
             {
-                if(agent.hasPath)
-                    hasPath = true;
-                else
-                    hasPath = false;
                 RaycastHit hit;
                 agent.ResetPath();
                 agent.velocity = Vector3.zero;
                 if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
                 {
                     transform.forward = hit.point;
-                    agent.velocity = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-                    //agent.SetDestination(hit.point.normalized * 2f);
+                    Speed *= 5;
+                    agent.SetDestination(hit.point);
+                    animator.SetBool("isDodge", true);
+                    isDodge = false;
+                    Invoke("DodgeOut", 1f);
                 }
-                //회전
-                animator.SetBool("isDodge", true);
-                isDodge = false;
-                Invoke("DodgeOut", 0.5f);
+               
             }
         }
        
@@ -112,9 +114,11 @@ public class Player : MonoBehaviour
 
     void DodgeOut()
     {
-        Speed /= 2;
-        //if(hasPath)
-        //    agent.SetDestination(destination);
+        Speed /= 5;
+
+        agent.ResetPath();
+        agent.velocity = Vector3.zero;
+        animator.SetBool("isMove", false);
         isDodge = true;
     }
 

@@ -21,7 +21,6 @@ public class MouseCursor : MonoBehaviour
     {
         mousePos.x = Input.mousePosition.x;
         mousePos.y = Input.mousePosition.y;
-        Debug.Log(mousePos);
 
         if (mousePos.x < 0)
         {

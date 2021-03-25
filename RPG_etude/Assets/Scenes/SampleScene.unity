@@ -10404,7 +10404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 5
-  isDodge: 1
+  DodgeTime: 0
 --- !u!1 &8147564316537544911
 GameObject:
   m_ObjectHideFlags: 0
