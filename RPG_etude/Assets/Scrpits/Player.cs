@@ -6,7 +6,9 @@ public class Player : MonoBehaviour
 {
     public float Speed;
     private bool isMove;
-
+    [SerializeField]
+    private bool isDodge  = true;
+    private bool hasPath;
     private Vector3 destination;
 
 
@@ -22,6 +24,8 @@ public class Player : MonoBehaviour
 
         //NavMeshAgent회전 제한
         agent.updateRotation = false;
+        agent.speed = Speed;
+
     }
 
     void Start()
@@ -31,10 +35,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-       
-
         Move();
         EndMoveCheck();
+        Dodge();
     }
     #region click move
     void Move()
@@ -79,5 +82,41 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+    void Dodge()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (isDodge)
+            {
+                if(agent.hasPath)
+                    hasPath = true;
+                else
+                    hasPath = false;
+                RaycastHit hit;
+                agent.ResetPath();
+                agent.velocity = Vector3.zero;
+                if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
+                {
+                    transform.forward = hit.point;
+                    agent.velocity = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+                    //agent.SetDestination(hit.point.normalized * 2f);
+                }
+                //회전
+                animator.SetBool("isDodge", true);
+                isDodge = false;
+                Invoke("DodgeOut", 0.5f);
+            }
+        }
+       
+    }
+
+    void DodgeOut()
+    {
+        Speed /= 2;
+        //if(hasPath)
+        //    agent.SetDestination(destination);
+        isDodge = true;
+    }
+
 
 }
