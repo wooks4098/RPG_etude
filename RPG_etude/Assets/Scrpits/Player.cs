@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public float Speed;
     private bool isMove;
     private bool isDodge = true;
+    private bool useSkill = false;
     [SerializeField]
     private float DodgeTime; //회피 쿨타임
     private Vector3 destination;
@@ -19,11 +20,10 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         camera = Camera.main;
-        animator = GetComponent<Animator>();
-        agent = gameObject.GetComponentInChildren<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
+        agent = gameObject.GetComponent<NavMeshAgent>();
 
-        //NavMeshAgent회전 제한
-        agent.updateRotation = false;
+        agent.updateRotation = false;//NavMeshAgent회전 제한
         agent.speed = Speed;
 
     }
@@ -44,9 +44,10 @@ public class Player : MonoBehaviour
 
 
     #region click move
+    //이동
     void Move()
     {
-        if (Input.GetMouseButton(1)&& isDodge)
+        if (Input.GetMouseButton(1)&& !useSkill)
         {
             RaycastHit hit;
             if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
@@ -69,42 +70,47 @@ public class Player : MonoBehaviour
     {
         if (isMove)
         {
-            if(agent.velocity.sqrMagnitude >= 0.1f * 0.1f && agent.remainingDistance <= 0.1f)
+            if(agent.velocity.sqrMagnitude >= 0.1f * 0.1f && agent.remainingDistance <= 0.1f)//이동종료
             {
                 isMove = false;
                 animator.SetBool("isMove", false);
+                agent.ResetPath();
+                agent.velocity = Vector3.zero;
             }
-            else if (agent.desiredVelocity.sqrMagnitude >= 0.1f * 0.1f)
+            else if (agent.desiredVelocity.sqrMagnitude >= 0.1f * 0.1f)//이동중 -> 회전
             {
                 //에이전트의 이동방향
                 Vector3 direction = agent.desiredVelocity;
                 //회전각도(쿼터니언)산출
                 Quaternion targetangle = Quaternion.LookRotation(direction);
                 //선형보간 함수를 이용해 부드러운 회전
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetangle, Time.deltaTime * 8.0f);
+                animator.transform.rotation = Quaternion.Slerp(animator.transform.rotation, targetangle, Time.deltaTime * 8.0f);
             }
         }
     }
     #endregion
 
+    #region 스킬
 
     void Dodge()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isDodge)
+            if (isDodge && !useSkill)
             {
-                RaycastHit hit;
+                //이전 이동 초기화
                 agent.ResetPath();
                 agent.velocity = Vector3.zero;
+                RaycastHit hit;
                 if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
                 {
-                    transform.forward = hit.point;
-                    Speed *= 5;
+                    animator.transform.forward = hit.point - animator.transform.position;
+                    agent.speed *= 2;
                     agent.SetDestination(hit.point);
                     animator.SetBool("isDodge", true);
                     isDodge = false;
-                    Invoke("DodgeOut", 1f);
+                    useSkill = true;
+                    Invoke("DodgeOut", 0.8f);
                 }
                
             }
@@ -114,13 +120,14 @@ public class Player : MonoBehaviour
 
     void DodgeOut()
     {
-        Speed /= 5;
+        agent.speed /= 2;
 
         agent.ResetPath();
         agent.velocity = Vector3.zero;
         animator.SetBool("isMove", false);
         isDodge = true;
+        useSkill = false;
     }
-
+    #endregion
 
 }
