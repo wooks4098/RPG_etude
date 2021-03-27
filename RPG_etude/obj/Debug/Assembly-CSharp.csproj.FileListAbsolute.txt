@@ -554,3 +554,5 @@ G:\GitHub\RPG_etude\RPG_etude\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs
 G:\GitHub\RPG_etude\RPG_etude\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 G:\GitHub\RPG_etude\RPG_etude\obj\Debug\Assembly-CSharp.dll
 G:\GitHub\RPG_etude\RPG_etude\obj\Debug\Assembly-CSharp.pdb
+G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\Unity.2D.Sprite.Editor.dll
+G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\Unity.2D.Sprite.Editor.pdb

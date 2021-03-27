@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
 public class Player : MonoBehaviour
 {
     public float Speed;
     private bool isMove;
     private bool isDodge = true;
     private bool useSkill = false;
+    public float Dodge_CoolTime;
     [SerializeField]
-    private float DodgeTime; //회피 쿨타임
+    private float DodgeTime_Count; //회피 쿨타임
+
+
     private Vector3 destination;
 
 
@@ -38,7 +42,7 @@ public class Player : MonoBehaviour
         Move();
         EndMoveCheck();
         Dodge();
-
+        SkillCooltime();
     }
 
 
@@ -92,6 +96,15 @@ public class Player : MonoBehaviour
 
     #region 스킬
 
+    void SkillCooltime()
+    {
+        if(isDodge == false)
+            DodgeTime_Count += Time.deltaTime;
+
+        if (DodgeTime_Count >= Dodge_CoolTime)
+            isDodge = true;
+    }
+
     void Dodge()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -107,9 +120,13 @@ public class Player : MonoBehaviour
                     animator.transform.forward = hit.point - animator.transform.position;
                     agent.speed *= 2;
                     agent.SetDestination(hit.point);
+
                     animator.SetBool("isDodge", true);
+
                     isDodge = false;
                     useSkill = true;
+                    DodgeTime_Count = 0;
+                    UI.instance.Skill_Use_Dodge(Dodge_CoolTime);
                     Invoke("DodgeOut", 0.8f);
                 }
                
@@ -120,12 +137,12 @@ public class Player : MonoBehaviour
 
     void DodgeOut()
     {
+        //agent 속도 초기화
         agent.speed /= 2;
-
         agent.ResetPath();
         agent.velocity = Vector3.zero;
+
         animator.SetBool("isMove", false);
-        isDodge = true;
         useSkill = false;
     }
     #endregion
