@@ -140,6 +140,7 @@ public class Player : Player_Base
             {
                 isMove = false;
                 animator.SetBool("isMove", false);
+                //회전코드 수정
                 agent.ResetPath();
                 agent.velocity = Vector3.zero;
             }
@@ -167,12 +168,12 @@ public class Player : Player_Base
             agent.ResetPath();
             agent.velocity = Vector3.zero;
             animator.SetTrigger("BasicAttack");
-            //animator.SetBool("isWalk", false);
+
         }
         else if(!isBasic_attack)
         {
             agent.SetDestination(Target.transform.position);
-            animator.SetBool("isWalk", true);
+            animator.SetBool("isMove", true);
         }
     }
 
@@ -192,25 +193,6 @@ public class Player : Player_Base
         }
         else
             return false;
-
-        //RaycastHit hit;
-        //float distance = Vector3.Distance(Target.transform.position, transform.position);
-        //Debug.DrawRay(transform.position, animator.transform.forward * 2, Color.red);
-        //if(Physics.Raycast(transform.position, animator.transform.forward, out hit,2))
-        //{
-        //    if (hit.collider == Target.collider)
-        //    {
-        //        isBasic_attack = true; 
-        //        Basic_attack_time = 0;
-        //        return true;
-        //    }
-
-        //    else
-        //        return false;
-        //}
-        //return false;
-  
-
 
     }
 

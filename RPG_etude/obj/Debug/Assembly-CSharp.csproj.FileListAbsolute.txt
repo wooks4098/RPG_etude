@@ -556,3 +556,10 @@ G:\GitHub\RPG_etude\RPG_etude\obj\Debug\Assembly-CSharp.dll
 G:\GitHub\RPG_etude\RPG_etude\obj\Debug\Assembly-CSharp.pdb
 G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\Unity.2D.Sprite.Editor.dll
 G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\Unity.2D.Sprite.Editor.pdb
+D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\Unity.2D.Sprite.Editor.dll
+D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\nunit.framework.dll
+D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\NavMeshComponentsEditor.pdb
+D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\NavMeshComponents.pdb
+D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\Unity.2D.Sprite.Editor.pdb
+D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\nunit.framework.pdb
+D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\nunit.framework.xml
