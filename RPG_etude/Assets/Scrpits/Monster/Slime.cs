@@ -39,7 +39,6 @@ public class Slime : MonoBehaviour
 
     private void Update()
     {
-
         switch (Slime_State)
         {
             case (int)SLIME_STATE.Find:
@@ -62,6 +61,7 @@ public class Slime : MonoBehaviour
         if(Move_time_Count >= Move_time)
         {
             agent.speed = Speed;
+
             agent.SetDestination(new Vector3(transform.position.x + (float)Random.Range(-2, 2), transform.position.y, transform.position.z + (float)Random.Range(-2, 2)));
 
             //움직임 시간 초기화
@@ -79,6 +79,7 @@ public class Slime : MonoBehaviour
         //탐색
         if (Vector3.Distance(transform.position, Player.position) <= Find_Range)
             Slime_State = (int)SLIME_STATE.Chase;
+
     }
 
 
@@ -98,12 +99,12 @@ public class Slime : MonoBehaviour
         }
         else
         {
+            //추격
+            agent.speed = Speed + 2;
             agent.SetDestination(Player.position);
             Attack_CoolTime_Count = 0.5f;
         }
-        //추격
 
-        //agent.speed;
 
     }
     void Attack()

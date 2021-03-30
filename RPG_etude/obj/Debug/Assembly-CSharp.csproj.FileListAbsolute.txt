@@ -563,3 +563,8 @@ D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\NavMeshComponents.pdb
 D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\Unity.2D.Sprite.Editor.pdb
 D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\nunit.framework.pdb
 D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\nunit.framework.xml
+G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\nunit.framework.dll
+G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\NavMeshComponentsEditor.pdb
+G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\NavMeshComponents.pdb
+G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\nunit.framework.pdb
+G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\nunit.framework.xml

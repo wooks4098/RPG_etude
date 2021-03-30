@@ -565,12 +565,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 1
-  Attack_Range: 1.3
+  Attack_Range: 1.5
   Attack_CoolTime: 1.5
   Attack_CoolTime_Count: 0
   Find_Range: 8
   Chase_Range: 16
-  Slime_State: 1
+  Slime_State: 0
   Player: {fileID: 1738084625}
 --- !u!195 &513153126
 NavMeshAgent:
@@ -1764,7 +1764,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1738084625}
   - component: {fileID: 1738084623}
-  - component: {fileID: 1738084624}
+  - component: {fileID: 1738084628}
   - component: {fileID: 1738084627}
   - component: {fileID: 1738084626}
   m_Layer: 0
@@ -1796,23 +1796,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1738084624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1738084622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7328687213f69f43b17dc9e4068b266, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 4
-  Dodge_CoolTime: 2
-  Attack_Range: 0
-  DodgeTime_Count: 0
-  player_ui: {fileID: 1738084627}
 --- !u!4 &1738084625
 Transform:
   m_ObjectHideFlags: 0
@@ -1842,7 +1825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 4
-  Dodge_CoolTime: 4
+  Skill_Dodge_CoolTime: 0
   Attack_Range: 5
 --- !u!114 &1738084627
 MonoBehaviour:
@@ -1858,6 +1841,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Skill_Dodge_Cooltime_Image: {fileID: 877436841}
   Skill_CoolTime: 0
+--- !u!114 &1738084628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738084622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2665c43b85d964478bce04c31dc240e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Player_State: 0
+  Speed: 4
+  BaseAttack_Range: 1.7
+  BaseAttack_CoolTime: 1.5
+  Skill_Dodge_CoolTime: 1
+  player_ui: {fileID: 0}
 --- !u!1 &1738241403
 GameObject:
   m_ObjectHideFlags: 0
@@ -11156,7 +11157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 5
-  Dodge_CoolTime: 0
+  Skill_Dodge_CoolTime: 0
   Attack_Range: 0
   DodgeTime_Count: 0
   player_ui: {fileID: 0}

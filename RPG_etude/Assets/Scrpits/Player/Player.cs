@@ -207,13 +207,13 @@ public class Player : Player_Base
         if(isDodge == false)
             DodgeTime_Count += Time.deltaTime;
 
-        if (DodgeTime_Count >= Dodge_CoolTime)
-            isDodge = true;
+        //if (DodgeTime_Count >= Dodge_CoolTime)
+        //    isDodge = true;
 
         if (isBasic_attack)
             Basic_attack_time += Time.deltaTime;
 
-        if (Basic_attack_time >= 1.3f)
+        if (Basic_attack_time >= 2f)
             isBasic_attack = false;
     }
 
@@ -240,7 +240,7 @@ public class Player : Player_Base
                     useSkill = true;
                     isMonsterClick = false;
                     DodgeTime_Count = 0;
-                    player_ui.Skill_Use_Dodge(Dodge_CoolTime);
+                    //player_ui.Skill_Use_Dodge(Dodge_CoolTime);
                     Invoke("DodgeOut", 0.8f);
                 }
                
