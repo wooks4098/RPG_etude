@@ -89,7 +89,7 @@ public class Player : Player_Base
                         agent.SetDestination(hit.point);
                         destination = hit.point;
                         agent.stoppingDistance = 0f;
-                       isMove = true;
+                        isMove = true;
                         isMonsterClick = false;
                         animator.SetBool("isMove", true);
 
@@ -98,6 +98,8 @@ public class Player : Player_Base
             }
         }
     }
+
+
 
     #region click move
     //이동

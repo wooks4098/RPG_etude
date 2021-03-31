@@ -50,6 +50,7 @@ public class Player_Fsm : MonoBehaviour
             case (int)PLAYER_STATE.Idle:
                 break;
             case (int)PLAYER_STATE.ClickMove:
+                ActionReset();
                 EndMoveCheck();
                 break;
             case (int)PLAYER_STATE.Base_Attack:
@@ -86,20 +87,21 @@ public class Player_Fsm : MonoBehaviour
         }
     }
 
-    
-
-   
-
-
+    void ActionReset()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            ResetMove();
+            Player_State = (int)PLAYER_STATE.Idle;
+        }
+       
+    }
     #region 클릭이동
 
     void Click_Move()
     {
         if (Vector3.Distance(transform.position, hit.point) > 0.2f)
         {
-            //if (agent.hasPath) //회전 미끄러짐 방지
-            //    agent.acceleration = (agent.remainingDistance < 2f) ? 8f : 60f;
-
             agent.SetDestination(hit.point);
             isMove = true;
             animator.SetBool("isMove", isMove);
@@ -111,7 +113,7 @@ public class Player_Fsm : MonoBehaviour
     {
         if (agent.hasPath)
         {
-            //미끄러져 이동 방지
+            //회전 미끄러짐 방지
             agent.acceleration = (agent.remainingDistance < 2f) ? 8f : 60f;
             //에이전트의 이동방향
             Vector3 direction = agent.desiredVelocity;
