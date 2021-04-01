@@ -102,9 +102,10 @@ public class Player_Fsm : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, hit.point) > 0.2f)
         {
-            agent.SetDestination(hit.point);
             isMove = true;
             animator.SetBool("isMove", isMove);
+            agent.SetDestination(hit.point);
+
         }
     }
 

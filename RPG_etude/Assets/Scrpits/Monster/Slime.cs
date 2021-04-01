@@ -169,4 +169,11 @@ public class Slime : MonoBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, Attack_Range);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player_Weapon")
+            Debug.Log("스라임 피격");
+    }
+
 }
