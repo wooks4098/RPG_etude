@@ -5,10 +5,15 @@ using UnityEngine.AI;
 public class Player_Fsm : MonoBehaviour
 {
     enum PLAYER_STATE { Idle, ClickMove, Base_Attack, Dodge }
+
+    private float Damage;                   //플레이어 데미지
+    public float Speed;                     //이동 속도
+
     [SerializeField]
     private int Player_State;               //플레이어 상태
-    public float Speed;                     //이동 속도
+
     private bool isMove;                    //이동중인지 체크
+
 
     private bool Can_BaseAttack = true;     //기본공격을 할수 있는지 확인하는 변수
     private float BaseAttack_time = 0;      //기본공격 쿨타임 측정용 변수
@@ -71,7 +76,7 @@ public class Player_Fsm : MonoBehaviour
         {
             if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
             {
-                if (hit.collider.tag == "Monster")
+                if (hit.collider.tag == "Monster_Slime")
                 {
                     //몬스터를 클릭했을 경우
                     Player_State = (int)PLAYER_STATE.Base_Attack;
@@ -198,6 +203,8 @@ public class Player_Fsm : MonoBehaviour
             ResetMove();
             StartCoroutine("LookAt_Target");
             animator.SetTrigger("BasicAttack");
+            Base_Attack_Hit_Monster();
+
         }
         else if (Can_BaseAttack)
         {
@@ -205,6 +212,15 @@ public class Player_Fsm : MonoBehaviour
             agent.SetDestination(Target.transform.position);
             isMove = true;
             animator.SetBool("isMove", isMove);
+        }
+    }
+
+    void Base_Attack_Hit_Monster()
+    {
+        if(hit.transform.tag == "Monster_Slime")
+        {
+            Slime slime = hit.transform.gameObject.GetComponent<Slime>();
+            slime.Slime_Hit_Base_Attack(Damage);
         }
     }
 

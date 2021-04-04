@@ -154,6 +154,25 @@ public class Slime : MonoBehaviour
         }
     }
 
+    public void Slime_Hit_Base_Attack(float _Damage)
+    {
+        Debug.Log("슬라임 피격");
+        //Hp -= _Damage;
+        //죽었는지 확인
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //if (other.tag == "Player_Weapon")
+        //{
+        //    Debug.Log("스라임 피격");
+
+        //}
+    }
+
+
+
 
     private void OnDrawGizmosSelected()
     {
@@ -169,11 +188,4 @@ public class Slime : MonoBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawWireSphere(transform.position, Attack_Range);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player_Weapon")
-            Debug.Log("스라임 피격");
-    }
-
 }
