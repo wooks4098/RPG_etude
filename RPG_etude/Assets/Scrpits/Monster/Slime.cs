@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 public class Slime : MonoBehaviour
 {
+    public float Max_Hp;
+    public float Hp;
     enum SLIME_STATE
     {
       Find, //탐색상태
@@ -20,15 +23,30 @@ public class Slime : MonoBehaviour
     private float Move_time_Count = 0;
     [SerializeField]
     private int Slime_State;//슬라임 상태
+    private bool isDie = false;
+    [SerializeField]
+    private ParticleSystem Blood;
 
     [SerializeField]
     private Transform Player;
 
+    //UI
+
+    [SerializeField]
+    GameObject Hp_bar;
+    private Slider Hp_bar_slider;
     //필요한 컴포넌트
     private NavMeshAgent agent;
     private Animator animator;
+    private Camera camera;
+
     private void Awake()
     {
+        Hp = Max_Hp;
+        camera = Camera.main;
+        Hp_bar.SetActive(true);
+        Hp_bar_slider = Hp_bar.GetComponent<Slider>();
+
         animator = GetComponentInChildren<Animator>();
         agent = gameObject.GetComponent<NavMeshAgent>();
 
@@ -39,6 +57,7 @@ public class Slime : MonoBehaviour
 
     private void Update()
     {
+        Hp_bar_Set();
         switch (Slime_State)
         {
             case (int)SLIME_STATE.Find:
@@ -49,10 +68,38 @@ public class Slime : MonoBehaviour
                 break;
             case (int)SLIME_STATE.Die:
                 //fade out
-                gameObject.SetActive(false);
                 break;
         }
         Rotate();
+        Die_Check();
+    }
+
+    void Die_Check()
+    {
+        if(!isDie&&Hp <= 0)
+        {
+            StartCoroutine("Die_ani");
+        }
+    }
+
+    IEnumerator Die_ani()
+    {
+        animator.SetTrigger("isDie");
+        Slime_State = (int)SLIME_STATE.Die;
+        isDie = true;
+        yield return new WaitForSeconds(0.2f);
+        Hp_bar.SetActive(false);
+        yield return new WaitForSeconds(1.2f);
+        gameObject.SetActive(false);
+
+        yield break;
+    }
+
+
+    void Hp_bar_Set()
+    {
+        Hp_bar.transform.position = camera.WorldToScreenPoint(gameObject.transform.position + new Vector3(0, 1.5f, 0));
+        Hp_bar_slider.value = Hp/ Max_Hp;
     }
 
     void Find()
@@ -157,6 +204,10 @@ public class Slime : MonoBehaviour
     public void Slime_Hit_Base_Attack(float _Damage)
     {
         Debug.Log("슬라임 피격");
+        Hp -= _Damage;
+        Blood.transform.forward = Player.position - Blood.transform.position;
+        Blood.transform.Rotate(0, 90, 0);
+        Blood.Play();
         //Hp -= _Damage;
         //죽었는지 확인
     }

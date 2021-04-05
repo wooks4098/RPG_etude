@@ -81,6 +81,8 @@ public class Player_Fsm : MonoBehaviour
                     //몬스터를 클릭했을 경우
                     Player_State = (int)PLAYER_STATE.Base_Attack;
                     Target = hit;
+                    //StartCoroutine("LookAt_Target");
+
                 }
                 else
                 {
@@ -120,7 +122,7 @@ public class Player_Fsm : MonoBehaviour
         if (agent.hasPath)
         {
             //회전 미끄러짐 방지
-            agent.acceleration = (agent.remainingDistance < 2f) ? 8f : 60f;
+            agent.acceleration = 60f;
             //에이전트의 이동방향
             Vector3 direction = agent.desiredVelocity;
             //회전각도(쿼터니언)산출
@@ -203,7 +205,7 @@ public class Player_Fsm : MonoBehaviour
             ResetMove();
             StartCoroutine("LookAt_Target");
             animator.SetTrigger("BasicAttack");
-            Base_Attack_Hit_Monster();
+            StartCoroutine("Base_Attack_Hit_Monster");
 
         }
         else if (Can_BaseAttack)
@@ -215,13 +217,17 @@ public class Player_Fsm : MonoBehaviour
         }
     }
 
-    void Base_Attack_Hit_Monster()
+    IEnumerator Base_Attack_Hit_Monster()
     {
-        if(hit.transform.tag == "Monster_Slime")
+        yield return new WaitForSeconds(0.3f);
+
+        if (hit.transform.tag == "Monster_Slime")
         {
             Slime slime = hit.transform.gameObject.GetComponent<Slime>();
-            slime.Slime_Hit_Base_Attack(Damage);
+            slime.Slime_Hit_Base_Attack(1);
         }
+
+        yield break;
     }
 
     //기본공격을 할 수 있는지 체크
@@ -244,7 +250,7 @@ public class Player_Fsm : MonoBehaviour
     IEnumerator LookAt_Target()
     {
         float time = 0;
-        while (time <= 0.3)
+        while (time <= 0.7)
         {
             time += Time.deltaTime;
             //에이전트의 이동방향
@@ -252,7 +258,7 @@ public class Player_Fsm : MonoBehaviour
             //회전각도(쿼터니언)산출
             Quaternion targetangle = Quaternion.LookRotation(direction);
             //선형보간 함수를 이용해 부드러운 회전
-            animator.transform.rotation = Quaternion.Slerp(animator.transform.rotation, targetangle, Time.deltaTime * 8.0f);
+            animator.transform.rotation = Quaternion.Slerp(animator.transform.rotation, targetangle, Time.deltaTime * 5.0f);
             yield return null;
 
         }
