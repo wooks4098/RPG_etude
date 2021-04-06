@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 public class Player_Fsm : MonoBehaviour
 {
-    enum PLAYER_STATE { Idle, ClickMove, Base_Attack, Dodge }
+    enum PLAYER_STATE { Idle, ClickMove, Base_Attack, Dodge,SkillQ,SkillW }
 
     private float Damage;                   //플레이어 데미지
     public float Speed;                     //이동 속도
@@ -21,9 +21,15 @@ public class Player_Fsm : MonoBehaviour
     public float BaseAttack_CoolTime;       //기본공격 쿨타임
 
     private bool isUseSkill = false;        //스킬 사용중인지 (기본공격 or 버프스킬 제외 모든 스킬은 스킬임)
+
     private bool CanUseDodge = true;        //회피 스킬 사용가능한지 (true 사용가능 false 사용불가능)
     public float Skill_Dodge_CoolTime;      //회피 스킬 쿨타임
     private float Skill_Dodge_time = 0;     //회피 스킬 쿨타임 측정용 변수
+
+    private bool CanUseSkill_Q = true;      //Q스킬 사용가능한지
+    public float Skill_Q_CoolTime;          //Q스킬 쿨타임
+    private float Skill_Q_time = 0;        //Q스킬 쿨타임 측정용 변수
+
 
     private RaycastHit Target;              //몬스터 추척 타겟
     RaycastHit hit;
@@ -57,13 +63,20 @@ public class Player_Fsm : MonoBehaviour
             case (int)PLAYER_STATE.ClickMove:
                 ActionReset();
                 EndMoveCheck();
+                Look_SetPoint();
                 break;
             case (int)PLAYER_STATE.Base_Attack:
                 Base_Attack();
+                Look_SetPoint();
                 break;
-
+            case (int)PLAYER_STATE.Dodge:
+                Look_SetPoint();
+                break;
+            case (int)PLAYER_STATE.SkillQ:
+              
+                break;
         }
-        Look_SetPoint();
+
         SkillCoolTime_Count();
     }
 
@@ -168,6 +181,13 @@ public class Player_Fsm : MonoBehaviour
                 Dodge();
             }
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (CanUseSkill_Q && !isUseSkill) //사용가능한지
+            {
+                Q_Skill();
+            }
+        }
     }
 
     //스킬 쿨타임 측정
@@ -183,7 +203,17 @@ public class Player_Fsm : MonoBehaviour
             }
         }
 
-        if(!Can_BaseAttack) //기본공격
+        if (!CanUseSkill_Q)//Q스킬
+        {
+            Skill_Q_time += Time.deltaTime;
+            if (Skill_Q_time >= Skill_Q_CoolTime)
+            {
+                CanUseSkill_Q = true;
+                Skill_Q_time = 0;
+            }
+        }
+
+        if (!Can_BaseAttack) //기본공격
         {
             BaseAttack_time += Time.deltaTime;
             if(BaseAttack_time >= BaseAttack_CoolTime)
@@ -194,14 +224,54 @@ public class Player_Fsm : MonoBehaviour
         }
     }
 
+
+
+    #region Skill_Q
+
+    void Q_Skill()
+    {
+        ResetMove();    //움직임 리셋
+        if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
+        {
+            //회전
+            animator.transform.forward = hit.point - animator.transform.position;
+            animator.transform.Rotate(0, animator.transform.rotation.y,0);
+            animator.SetTrigger("SkillQ");
+            player_ui.Skill_Use_SkillQ(Skill_Q_CoolTime);
+
+            CanUseSkill_Q = false;
+            isUseSkill = true;
+            Skill_Q_time = 0;
+            Player_State = (int)PLAYER_STATE.SkillQ;
+            Invoke("QSkillOut", 1f);
+        }
+    }
+
+    void QSkillOut()
+    {
+
+        Player_State = (int)PLAYER_STATE.Idle;
+        animator.SetBool("isMove", false);
+        isMove = false;
+        isUseSkill = false;
+
+    }
+    #endregion
+
     #region 기본공격
     //기본공격
     void Base_Attack()
     {
 
+
         if (Can_BaseAttack_Check())
         {
             //기본공격
+            if (Target.transform.gameObject.activeSelf == false)
+            {
+                Player_State = (int)PLAYER_STATE.Idle;
+                return;
+            }
             ResetMove();
             StartCoroutine("LookAt_Target");
             animator.SetTrigger("BasicAttack");
@@ -235,6 +305,8 @@ public class Player_Fsm : MonoBehaviour
     {
         if (!Can_BaseAttack)//기본공격 사용가능한지
             return false;
+
+
         float dir = Vector3.Distance(Target.transform.position, transform.position);
         if (dir <= BaseAttack_Range)
         {
@@ -272,10 +344,11 @@ public class Player_Fsm : MonoBehaviour
         ResetMove();    //움직임 리셋
         if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
         {
-            animator.transform.forward = hit.point - animator.transform.position;
+            //animator.transform.forward = hit.point - animator.transform.position;
             agent.speed *= 2;
             agent.SetDestination(hit.point);
             animator.SetTrigger("Dodge");
+            player_ui.Skill_Use_Dodge(Skill_Dodge_CoolTime);
 
             CanUseDodge = false;
             isUseSkill = true;
@@ -284,7 +357,7 @@ public class Player_Fsm : MonoBehaviour
             Invoke("DodgeOut", 0.8f);
         }
     }
-
+    
     void DodgeOut()
     {
         agent.speed /= 2;

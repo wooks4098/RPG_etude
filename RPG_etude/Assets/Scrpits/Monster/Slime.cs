@@ -23,7 +23,7 @@ public class Slime : MonoBehaviour
     private float Move_time_Count = 0;
     [SerializeField]
     private int Slime_State;//슬라임 상태
-    private bool isDie = false;
+    public bool isDie = false;
     [SerializeField]
     private ParticleSystem Blood;
 
@@ -89,7 +89,7 @@ public class Slime : MonoBehaviour
         isDie = true;
         yield return new WaitForSeconds(0.2f);
         Hp_bar.SetActive(false);
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.8f);
         gameObject.SetActive(false);
 
         yield break;
