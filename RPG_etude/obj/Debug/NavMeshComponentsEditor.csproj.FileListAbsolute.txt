@@ -557,3 +557,4 @@ G:\GitHub\RPG_etude\RPG_etude\obj\Debug\NavMeshComponentsEditor.csproj.CopyCompl
 G:\GitHub\RPG_etude\RPG_etude\obj\Debug\NavMeshComponentsEditor.dll
 G:\GitHub\RPG_etude\RPG_etude\obj\Debug\NavMeshComponentsEditor.pdb
 G:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\JMOAssets_CartoonFXFreeWelcome.dll
+D:\GitHub\RPG_etude\RPG_etude\Temp\bin\Debug\JMOAssets_CartoonFXFreeWelcome.dll
