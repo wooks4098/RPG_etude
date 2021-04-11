@@ -10,8 +10,15 @@ public class Skill_Collider_Controller : MonoBehaviour
     private GameObject Skill_W_Collider;
     [SerializeField]
     private GameObject Skill_E_Collider;
-
-
+    //public TrailRenderer trailEffect;
+    //public void Start_Attack()
+    //{
+    //    trailEffect.enabled = true;
+    //}
+    //public void End_Attack()
+    //{
+    //    trailEffect.enabled = false;
+    //}
     public void Skill_Q_AttackCollision()
     {
         Skill_Q_Collider.SetActive(true);

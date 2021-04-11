@@ -41,6 +41,10 @@ public class Player_Fsm : MonoBehaviour
     public float Skill_E_CoolTime;          //E스킬 쿨타임
     private float Skill_E_time = 0;        //E스킬 쿨타임 측정용 변수
 
+    private bool CanUseSkill_R = true;      //R스킬 사용가능한지
+    public float Skill_R_CoolTime;          //R스킬 쿨타임
+    private float Skill_R_time = 0;        //R스킬 쿨타임 측정용 변수
+
     private RaycastHit Target;              //몬스터 추척 타겟
     RaycastHit hit;
 
@@ -213,6 +217,14 @@ public class Player_Fsm : MonoBehaviour
                 E_Skill();
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (CanUseSkill_R && !isUseSkill) //사용가능한지
+            {
+                R_Skill();
+            }
+        }
     }
 
     //스킬 쿨타임 측정
@@ -248,13 +260,23 @@ public class Player_Fsm : MonoBehaviour
             }
         }
 
-        if (!CanUseSkill_E)//W스킬
+        if (!CanUseSkill_E)//E스킬
         {
             Skill_E_time += Time.deltaTime;
             if (Skill_E_time >= Skill_E_CoolTime)
             {
                 CanUseSkill_E = true;
                 Skill_E_time = 0;
+            }
+        }
+
+        if (!CanUseSkill_R)//R스킬
+        {
+            Skill_R_time += Time.deltaTime;
+            if (Skill_R_time >= Skill_E_CoolTime)
+            {
+                CanUseSkill_R = true;
+                Skill_R_time = 0;
             }
         }
 
@@ -269,11 +291,16 @@ public class Player_Fsm : MonoBehaviour
         }
     }
 
-    IEnumerable Skill_Look()
+    IEnumerator Skill_Look()
     {
-        for(int i =0; i<10; i++)
+        for(int i = 0; i<50; i++)
         {
 
+            Vector3 dir = hit.point - animator.transform.position;
+            Quaternion targetangle = Quaternion.LookRotation(dir);
+            animator.transform.rotation = Quaternion.Slerp(animator.transform.rotation, targetangle, 0.1f);
+            animator.transform.eulerAngles = new Vector3(0, animator.transform.rotation.eulerAngles.y, 0);
+            yield return null;
         }
 
         yield break;
@@ -287,10 +314,7 @@ public class Player_Fsm : MonoBehaviour
         if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
         {
             //회전
-            //animator.transform.forward = hit.point - animator.transform.position;
-            //animator.transform.Rotate(0, animator.transform.rotation.y,0);
-            Vector3 dir = hit.point - animator.transform.position;
-            animator.transform.rotation = Quaternion.Slerp(animator.transform.rotation, dir, 0.1f);
+            StartCoroutine("Skill_Look");
             animator.SetTrigger("SkillQ");
             player_ui.Skill_Use_SkillQ(Skill_Q_CoolTime);
 
@@ -320,9 +344,8 @@ public class Player_Fsm : MonoBehaviour
         ResetMove();    //움직임 리셋
         if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
         {
-            //회전
-            animator.transform.forward = hit.point - animator.transform.position;
-            animator.transform.Rotate(0, animator.transform.rotation.y, 0);
+            StartCoroutine("Skill_Look");
+            //Skill_Look();
             animator.SetTrigger("SkillW");
             player_ui.Skill_Use_SkillW(Skill_W_CoolTime);
 
@@ -353,8 +376,8 @@ public class Player_Fsm : MonoBehaviour
         if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
         {
             //회전
-            animator.transform.forward = hit.point - animator.transform.position;
-            animator.transform.Rotate(0, animator.transform.rotation.y, 0);
+            StartCoroutine("Skill_Look");
+            //Skill_Look();
             animator.SetTrigger("SkillE");
             player_ui.Skill_Use_SkillE(Skill_E_CoolTime);
 
@@ -377,6 +400,37 @@ public class Player_Fsm : MonoBehaviour
     }
     #endregion
 
+    #region Skill_R
+
+    void R_Skill()
+    {
+        ResetMove();    //움직임 리셋
+        if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
+        {
+            //회전
+            StartCoroutine("Skill_Look");
+            //Skill_Look();
+            animator.SetTrigger("SkillR");
+            player_ui.Skill_Use_SkillR(Skill_R_CoolTime);
+
+            CanUseSkill_R = false;
+            isUseSkill = true;
+            Skill_R_time = 0;
+            Player_State = (int)PLAYER_STATE.SkillR;
+            Invoke("RSkillOut", 1f);
+        }
+    }
+
+    void RSkillOut()
+    {
+
+        Player_State = (int)PLAYER_STATE.Idle;
+        animator.SetBool("isMove", false);
+        isMove = false;
+        isUseSkill = false;
+
+    }
+    #endregion
     #region 기본공격
     //기본공격
     void Base_Attack()

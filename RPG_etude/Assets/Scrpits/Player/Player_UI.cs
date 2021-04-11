@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class Player_UI : MonoBehaviour
 {
-    public Image Skill_Dodge_Cooltime_Image;
-    private bool Use_Doge = false;
-    public float Skill_Dodge_CoolTime;
-    float Skill_Dodge_CoolTime_Count = 0;
+    public Image Skill_Dodge_Cooltime_Image;            //쿨타임 표시할 이미지
+    private bool Use_Doge = false;                      //Dodge가 사용중인지
+    public float Skill_Dodge_CoolTime;                  //Dodge쿨타임
+    float Skill_Dodge_CoolTime_Count = 0;               //Dodge쿨타임 측정용 변수
 
     public Image Skill_SkillQ_Cooltime_Image;
     private bool Use_SkillQ = false;
@@ -24,6 +24,11 @@ public class Player_UI : MonoBehaviour
     private bool Use_SkillE = false;
     public float Skill_SkillE_CoolTime;
     float Skill_SkillE_CoolTime_Count = 0;
+
+    public Image Skill_SkillR_Cooltime_Image;
+    private bool Use_SkillR = false;
+    public float Skill_SkillR_CoolTime;
+    float Skill_SkillR_CoolTime_Count = 0;
 
     void Awake()
     {
@@ -56,6 +61,15 @@ public class Player_UI : MonoBehaviour
         }
         if (Skill_SkillE_CoolTime_Count >= Skill_SkillE_CoolTime)
             Use_SkillE = false;
+
+        if (Use_SkillR)
+        {
+            Skill_SkillR_CoolTime_Count += Time.deltaTime;
+            Skill_SkillR_Cooltime_Image.fillAmount = Mathf.Lerp(1, 0, Skill_SkillR_CoolTime_Count / Skill_SkillR_CoolTime);
+
+        }
+        if (Skill_SkillR_CoolTime_Count >= Skill_SkillR_CoolTime)
+            Use_SkillR = false;
 
         if (Use_Doge)
         {
@@ -90,6 +104,15 @@ public class Player_UI : MonoBehaviour
         Skill_SkillE_CoolTime_Count = 0;
         Skill_SkillE_CoolTime = cooltime;
     }
+
+    public void Skill_Use_SkillR(float cooltime)
+    {
+        Skill_SkillR_Cooltime_Image.fillAmount = 1;
+        Use_SkillR = true;
+        Skill_SkillR_CoolTime_Count = 0;
+        Skill_SkillR_CoolTime = cooltime;
+    }
+
     public void Skill_Use_Dodge(float cooltime)
     {
         Skill_Dodge_Cooltime_Image.fillAmount = 1;
