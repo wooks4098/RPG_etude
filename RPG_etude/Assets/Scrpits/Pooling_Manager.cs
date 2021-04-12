@@ -9,7 +9,7 @@ public class Pooling_Manager : MonoBehaviour
 
     private void Awake()
     {
-        Slime = new GameObject[20];
+        Slime = new GameObject[40];
 
 
         Setobject();

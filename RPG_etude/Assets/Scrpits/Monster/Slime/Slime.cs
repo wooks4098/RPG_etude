@@ -46,7 +46,6 @@ public class Slime : MonoBehaviour
         camera = Camera.main;
         Hp_bar.SetActive(true);
         Hp_bar_slider = Hp_bar.GetComponent<Slider>();
-
         animator = GetComponentInChildren<Animator>();
         agent = gameObject.GetComponent<NavMeshAgent>();
         Player = GameObject.FindGameObjectWithTag("Player").transform;

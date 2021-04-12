@@ -40,10 +40,11 @@ public class SlimeManager : MonoBehaviour
     }
     Vector3 Spawn_Position()
     {
-        Vector3 Pos = new Vector3(transform.position.x,0.5f,transform.position.z);
-       
-        Debug.Log(Pos);
-        return Pos;
+        float x = Random.Range(-Spawn_Range, Spawn_Range);
+        float Max_Y = Mathf.Sqrt(Mathf.Pow(Spawn_Range, 2) - Mathf.Pow(x, 2));
+        float y = Random.Range(-Max_Y, Max_Y);
+
+        return new Vector3(transform.position.x + x, 0.5f, transform.position.z + y);
     }
 
     private void OnDrawGizmosSelected()
@@ -51,7 +52,5 @@ public class SlimeManager : MonoBehaviour
         //생성 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, Spawn_Range);
-
-       
     }
 }

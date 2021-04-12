@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6324796625282813136
 Transform:
   m_ObjectHideFlags: 0
@@ -9981,6 +9981,7 @@ MonoBehaviour:
   Slime_State: 0
   isDie: 0
   Blood: {fileID: 6324796625302210960}
+  Blood_obj: {fileID: 6324796625283043568}
   Player: {fileID: 0}
   Hp_bar: {fileID: 8295637550442756035}
 --- !u!195 &8295637548966748568
