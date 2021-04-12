@@ -12,7 +12,7 @@ public class Pooling_Manager : MonoBehaviour
         Slime = new GameObject[20];
 
 
-        Setobject();        //로딩?
+        Setobject();
     }
 
     //오브젝트 미리 생성
@@ -25,4 +25,27 @@ public class Pooling_Manager : MonoBehaviour
         }
 
     }
+
+    public GameObject ReturnObject(string _Name)
+    {
+        switch (_Name)
+        {
+            case "슬라임":
+                return findObject(Slime);
+
+        }
+        return null; //사용가능한 오브젝트가 없음
+    }
+
+    //사용가능한 오브젝트 탐색
+    GameObject findObject(GameObject[] _obj)
+    {
+        for (int i = 0; i < _obj.Length; i++)
+        {
+            if (_obj[i].activeSelf == false)
+                return _obj[i];
+        }
+        return null;
+    }
+
 }

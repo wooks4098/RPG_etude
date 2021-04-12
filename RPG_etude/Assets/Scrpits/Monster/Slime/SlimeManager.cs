@@ -4,15 +4,54 @@ using UnityEngine;
 
 public class SlimeManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private float Spawn_time;
+    [SerializeField]
+    private float time;
+    [SerializeField]
+    private float Spawn_Range;
+    [SerializeField]
+    private Pooling_Manager pooling_Manager;
+
+    private void Awake()
     {
-        
+        time = 0f;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        time += Time.deltaTime;
+
+        if(time >= Spawn_time)
+        {
+            Spawn();
+            time = 0; 
+        }
+    }
+
+    void Spawn()
+    {
+        GameObject slime = pooling_Manager.ReturnObject("슬라임");
+        if (slime == null)
+            return;
+        slime.SetActive(true);
+        slime.GetComponent<Slime>().Spawn();
+        slime.transform.position = Spawn_Position();
+    }
+    Vector3 Spawn_Position()
+    {
+        Vector3 Pos = new Vector3(transform.position.x,0.5f,transform.position.z);
+       
+        Debug.Log(Pos);
+        return Pos;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        //생성 범위
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, Spawn_Range);
+
+       
     }
 }

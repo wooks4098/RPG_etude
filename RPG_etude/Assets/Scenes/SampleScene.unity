@@ -3117,10 +3117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343a71bedc30f1b4e8cbe3c61909652a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Skill_Dodge_Cooltime_Image: {fileID: 877436841}
-  Use_Skill: 0
-  Skill_CoolTime: 0
-  Skill_CoolTime_Count: 0
 --- !u!4 &1681321884
 Transform:
   m_ObjectHideFlags: 0
@@ -3412,6 +3408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1893674774}
+  - component: {fileID: 1893674775}
   m_Layer: 0
   m_Name: Slime_Manager
   m_TagString: Untagged
@@ -3427,12 +3424,28 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1893674773}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.45303333, y: 0.89604616, z: 0.5362951}
+  m_LocalPosition: {x: 10.73, y: 0.89604616, z: 19.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1893674775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1893674773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9481c4ab8b2a8f640aba4e47df4779b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spawn_time: 3
+  time: 0
+  Spawn_Range: 15
+  pooling_Manager: {fileID: 1645691258}
 --- !u!1 &1918407088
 GameObject:
   m_ObjectHideFlags: 0
@@ -13696,7 +13709,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8147717989039571299}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -16922,11 +16935,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8295637548966748571, guid: 9d933213132b3e944890a41ea47cabdd,
-        type: 3}
-      propertyPath: Player
-      value: 
-      objectReference: {fileID: 1738084625}
     - target: {fileID: 8295637550906591529, guid: 9d933213132b3e944890a41ea47cabdd,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -16937,10 +16945,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 8296714537598391638, guid: 9d933213132b3e944890a41ea47cabdd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8300517371615935354, guid: 9d933213132b3e944890a41ea47cabdd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.25
+      value: 3.06
       objectReference: {fileID: 0}
     - target: {fileID: 8300517371615935354, guid: 9d933213132b3e944890a41ea47cabdd,
         type: 3}

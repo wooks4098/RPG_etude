@@ -49,7 +49,7 @@ public class Slime : MonoBehaviour
 
         animator = GetComponentInChildren<Animator>();
         agent = gameObject.GetComponent<NavMeshAgent>();
-
+        Player = GameObject.FindGameObjectWithTag("Player").transform;
         agent.updateRotation = false;//NavMeshAgent회전 제한
         agent.speed = Speed;
     }
@@ -74,6 +74,14 @@ public class Slime : MonoBehaviour
         Die_Check();
     }
   
+    public void Spawn()
+    {
+        isDie = false;
+        Hp = Max_Hp;
+        Slime_State = (int)SLIME_STATE.Find;
+        Hp_bar.SetActive(true);
+    }
+
 
     #region 상태
     void Find()
@@ -185,6 +193,8 @@ public class Slime : MonoBehaviour
 
     public void Slime_Hit_Base_Attack(float _Damage)
     {
+        if (Hp <= 0)
+            return;
         Debug.Log("슬라임 피격");
         Hp -= _Damage;
         Blood.transform.forward = Player.position - Blood.transform.position;
