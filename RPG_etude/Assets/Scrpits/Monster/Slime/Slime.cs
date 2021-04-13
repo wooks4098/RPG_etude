@@ -79,6 +79,7 @@ public class Slime : MonoBehaviour
         Hp = Max_Hp;
         Slime_State = (int)SLIME_STATE.Find;
         Hp_bar.SetActive(true);
+        Hp_bar_Set();
     }
 
 

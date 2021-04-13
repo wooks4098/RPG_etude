@@ -6,10 +6,13 @@ public class Pooling_Manager : MonoBehaviour
 {
     public GameObject[] Slime;
     public GameObject Slime_Prefab;
+    public int Slime_Poolling_Count;
+
+
 
     private void Awake()
     {
-        Slime = new GameObject[40];
+        Slime = new GameObject[Slime_Poolling_Count];
 
 
         Setobject();

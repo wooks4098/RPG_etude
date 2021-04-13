@@ -8,9 +8,7 @@ public class Player_Fsm : MonoBehaviour
 
     private float Damage;                   //플레이어 데미지
     public float Speed;                     //이동 속도
-                                            // int Floor_LayerMask; //바닥 레이어
 
-    int Layermask;
 
     [SerializeField]
     private int Player_State;               //플레이어 상태
@@ -63,7 +61,6 @@ public class Player_Fsm : MonoBehaviour
 
         agent.updateRotation = false;//NavMeshAgent회전 제한
         agent.speed = Speed;
-        Layermask = (-1) - (1 << LayerMask.NameToLayer("Object"));
     }
 
     private void Update()
@@ -109,7 +106,6 @@ public class Player_Fsm : MonoBehaviour
                     Player_State = (int)PLAYER_STATE.Base_Attack;
                     Target = hit;
                     //StartCoroutine("LookAt_Target");
-
                 }
                 else
                 {
