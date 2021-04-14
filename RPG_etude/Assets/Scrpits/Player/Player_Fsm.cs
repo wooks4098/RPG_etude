@@ -2,45 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class Player_Fsm : MonoBehaviour
+public class Player_Fsm : Player_Base
 {
-    enum PLAYER_STATE { Idle, ClickMove, Base_Attack, Dodge,SkillQ,SkillW,SkillE,SkillR }
-
-    private float Damage;                   //플레이어 데미지
-    public float Speed;                     //이동 속도
-
 
     [SerializeField]
     private int Player_State;               //플레이어 상태
 
     private bool isMove;                    //이동중인지 체크
 
-
     private bool Can_BaseAttack = true;     //기본공격을 할수 있는지 확인하는 변수
     private float BaseAttack_time = 0;      //기본공격 쿨타임 측정용 변수
-    public float BaseAttack_Range;          //기본공격 거리
-    public float BaseAttack_CoolTime;       //기본공격 쿨타임
 
     private bool isUseSkill = false;        //스킬 사용중인지 (기본공격 or 버프스킬 제외 모든 스킬은 스킬임)
 
     private bool CanUseDodge = true;        //회피 스킬 사용가능한지 (true 사용가능 false 사용불가능)
-    public float Skill_Dodge_CoolTime;      //회피 스킬 쿨타임
     private float Skill_Dodge_time = 0;     //회피 스킬 쿨타임 측정용 변수
 
     private bool CanUseSkill_Q = true;      //Q스킬 사용가능한지
-    public float Skill_Q_CoolTime;          //Q스킬 쿨타임
     private float Skill_Q_time = 0;        //Q스킬 쿨타임 측정용 변수
 
     private bool CanUseSkill_W = true;      //w스킬 사용가능한지
-    public float Skill_W_CoolTime;          //w스킬 쿨타임
     private float Skill_W_time = 0;        //w스킬 쿨타임 측정용 변수
 
     private bool CanUseSkill_E = true;      //E스킬 사용가능한지
-    public float Skill_E_CoolTime;          //E스킬 쿨타임
     private float Skill_E_time = 0;        //E스킬 쿨타임 측정용 변수
 
     private bool CanUseSkill_R = true;      //R스킬 사용가능한지
-    public float Skill_R_CoolTime;          //R스킬 쿨타임
     private float Skill_R_time = 0;        //R스킬 쿨타임 측정용 변수
 
     private RaycastHit Target;              //몬스터 추척 타겟
@@ -52,6 +39,7 @@ public class Player_Fsm : MonoBehaviour
     private Animator animator;
     private NavMeshAgent agent;
     public Player_UI player_ui;
+    public ItemPickUp itemPickUp;
 
     private void Awake()
     {
@@ -76,6 +64,12 @@ public class Player_Fsm : MonoBehaviour
                 EndMoveCheck();
                 Look_SetPoint();
                 break;
+            case (int)PLAYER_STATE.GetItem:
+                GetItem();
+                Look_SetPoint();
+
+                break;
+
             case (int)PLAYER_STATE.Base_Attack:
                 Base_Attack();
                 Look_SetPoint();
@@ -84,7 +78,6 @@ public class Player_Fsm : MonoBehaviour
                 Look_SetPoint();
                 break;
             case (int)PLAYER_STATE.SkillQ:
-              
                 break;
         }
 
@@ -106,6 +99,11 @@ public class Player_Fsm : MonoBehaviour
                     Player_State = (int)PLAYER_STATE.Base_Attack;
                     Target = hit;
                     //StartCoroutine("LookAt_Target");
+                }
+                else if(hit.collider.tag == "Item")
+                {
+                    Player_State = (int)PLAYER_STATE.GetItem;
+                    Target = hit;
                 }
                 else
                 {
@@ -177,7 +175,26 @@ public class Player_Fsm : MonoBehaviour
     }
     #endregion
 
+    #region 아이템획득
 
+
+    void GetItem()
+    {
+        if(Vector3.Distance(transform.position, hit.transform.position) <= GetItem_Range)
+        {
+            //아이템 획득
+            itemPickUp.Get_Item(hit);
+            ResetMove();
+            Player_State = (int)PLAYER_STATE.Idle;
+        }
+        else
+        {
+            //이동
+            agent.SetDestination(hit.point);
+        }
+    }
+
+    #endregion
 
     #region 스킬
 
@@ -427,6 +444,7 @@ public class Player_Fsm : MonoBehaviour
 
     }
     #endregion
+
     #region 기본공격
     //기본공격
     void Base_Attack()
@@ -550,6 +568,10 @@ public class Player_Fsm : MonoBehaviour
         //기본공격 범위
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, BaseAttack_Range);
+
+        //아이템 획득 범위
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, GetItem_Range);
 
 
     }

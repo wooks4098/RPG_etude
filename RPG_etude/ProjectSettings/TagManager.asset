@@ -8,6 +8,8 @@ TagManager:
   - Player_Weapon
   - Monster
   - Monster_Slime
+  - FxTemporaire
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - 
   - Player_Dodge
   - Object
-  - 
+  - Item
   - 
   - 
   - 

@@ -7,27 +7,27 @@ public class Player_UI : MonoBehaviour
 {
     public Image Skill_Dodge_Cooltime_Image;            //쿨타임 표시할 이미지
     private bool Use_Doge = false;                      //Dodge가 사용중인지
-    public float Skill_Dodge_CoolTime;                  //Dodge쿨타임
+    private float Skill_Dodge_CoolTime;                  //Dodge쿨타임
     float Skill_Dodge_CoolTime_Count = 0;               //Dodge쿨타임 측정용 변수
 
     public Image Skill_SkillQ_Cooltime_Image;
     private bool Use_SkillQ = false;
-    public float Skill_SkillQ_CoolTime;
+    private float Skill_SkillQ_CoolTime;
     float Skill_SkillQ_CoolTime_Count = 0;
 
     public Image Skill_SkillW_Cooltime_Image;
     private bool Use_SkillW = false;
-    public float Skill_SkillW_CoolTime;
+    private float Skill_SkillW_CoolTime;
     float Skill_SkillW_CoolTime_Count = 0;
 
     public Image Skill_SkillE_Cooltime_Image;
     private bool Use_SkillE = false;
-    public float Skill_SkillE_CoolTime;
+    private float Skill_SkillE_CoolTime;
     float Skill_SkillE_CoolTime_Count = 0;
 
     public Image Skill_SkillR_Cooltime_Image;
     private bool Use_SkillR = false;
-    public float Skill_SkillR_CoolTime;
+    private float Skill_SkillR_CoolTime;
     float Skill_SkillR_CoolTime_Count = 0;
 
     void Awake()
