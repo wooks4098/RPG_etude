@@ -89,7 +89,7 @@ public class Player_Fsm : Player_Base
     //클릭 체크
     void ClickCheck()
     {
-        if (Input.GetMouseButton(1) && !isUseSkill)
+        if (Input.GetMouseButton(1) && !isUseSkill && Inventory.inventoryOpened == false)
         {
             if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hit))
             {

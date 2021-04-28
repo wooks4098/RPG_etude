@@ -9981,7 +9981,6 @@ MonoBehaviour:
   Slime_State: 0
   isDie: 0
   Blood: {fileID: 6324796625302210960}
-  Blood_obj: {fileID: 6324796625283043568}
   Player: {fileID: 0}
   Hp_bar: {fileID: 8295637550442756035}
 --- !u!195 &8295637548966748568
@@ -10005,7 +10004,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 1
 --- !u!1 &8296783550249774824
 GameObject:
   m_ObjectHideFlags: 0
