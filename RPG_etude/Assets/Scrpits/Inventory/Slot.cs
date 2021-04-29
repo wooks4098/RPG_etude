@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour , IPointerClickHandler , IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class Slot : MonoBehaviour , IPointerClickHandler , IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private Vector3 orginPos;
 
@@ -18,7 +18,11 @@ public class Slot : MonoBehaviour , IPointerClickHandler , IBeginDragHandler, ID
     private GameObject text_Count_obj;
     [SerializeField]
     private Item_Use item_Use;
-    
+    [SerializeField]
+    private Slot_info slot_info;
+    private bool IS_Slot_info_Open; //Slot_info오픈가능한지 (마우스가 올라와있으면 true)
+     private float Slot_info_Open_timeCount;
+    private float Slot_info_Open_time = 0.7f;
     void awake()
     {
 
@@ -28,7 +32,22 @@ public class Slot : MonoBehaviour , IPointerClickHandler , IBeginDragHandler, ID
     {
         orginPos = transform.position;
         item_Use = FindObjectOfType<Item_Use>();
+        slot_info = FindObjectOfType<Slot_info>();
+        Slot_info_Open_timeCount = 0;
+    }
 
+    void Update()
+    {
+        if(IS_Slot_info_Open)
+        {
+            Slot_info_Open_timeCount += Time.deltaTime;
+            if(Slot_info_Open_timeCount >= Slot_info_Open_time)
+            {
+                slot_info.Show_Slot_info(item, this.transform.position);
+                Slot_info_Open_timeCount = 0f;
+                IS_Slot_info_Open = false;
+            }
+        }
     }
 
     //이미지 투명도 조절
@@ -80,6 +99,9 @@ public class Slot : MonoBehaviour , IPointerClickHandler , IBeginDragHandler, ID
             if (eventData.button == PointerEventData.InputButton.Right)
             {//우클릭
                 item_Use.Show_Item_Use((int)item.itemtype, this.transform.position);
+                IS_Slot_info_Open = false;
+                Slot_info_Open_timeCount = 0f;
+                slot_info.Close_Slot_info();
             }
         }
     }
@@ -146,6 +168,26 @@ public class Slot : MonoBehaviour , IPointerClickHandler , IBeginDragHandler, ID
             DragSlot.instance.dragSlot.AddItem(_tempItem, _tempItemCount);
         else
             DragSlot.instance.dragSlot.ClearSlot();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (item != null && Item_Use.Item_UseOpened == false)
+        {
+            //slot_info.Show_Slot_info(item);
+            IS_Slot_info_Open = true;
+        }
+
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (item != null)
+        {
+            IS_Slot_info_Open = false;
+            Slot_info_Open_timeCount = 0f;
+            slot_info.Close_Slot_info();
+        }
     }
 
     #endregion

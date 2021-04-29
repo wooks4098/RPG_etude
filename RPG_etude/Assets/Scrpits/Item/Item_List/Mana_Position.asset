@@ -15,3 +15,4 @@ MonoBehaviour:
   itemName: "\uB9C8\uB098\uD3EC\uC158"
   itemtype: 0
   itemSprite: {fileID: 21300000, guid: 74f3ff7910cd94f41af53cfb1413fa03, type: 3}
+  item_info: "\uC0AC\uC6A9\uC2DC \uB9C8\uB098\uB97C \uD68C\uBCF5\uC2DC\uCF1C\uC900\uB2E4"
