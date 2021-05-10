@@ -30,7 +30,6 @@ public class Player_Fsm : Player_Base
     private bool CanUseSkill_R = true;      //R스킬 사용가능한지
     private float Skill_R_time = 0;        //R스킬 쿨타임 측정용 변수
 
-    private RaycastHit Target;              //몬스터 추척 타겟
     RaycastHit hit;
 
 
@@ -53,7 +52,7 @@ public class Player_Fsm : Player_Base
 
     private void Update()
     {
-        ClickCheck();
+        //ClickCheck();
         UseSkill_Check();
         switch (Player_State)
         {
@@ -97,13 +96,13 @@ public class Player_Fsm : Player_Base
                 {
                     //몬스터를 클릭했을 경우
                     Player_State = (int)PLAYER_STATE.Base_Attack;
-                    Target = hit;
+
                     //StartCoroutine("LookAt_Target");
                 }
                 else if(hit.collider.tag == "Item")
                 {
                     Player_State = (int)PLAYER_STATE.GetItem;
-                    Target = hit;
+
                 }
                 else
                 {
@@ -124,9 +123,19 @@ public class Player_Fsm : Player_Base
         }
        
     }
+
+    public void ChangeState(int _state)
+    {
+        Player_State = _state;
+    }
+    public void ChangeMouseHit(RaycastHit _hit)
+    {
+        hit = _hit;
+    }
+
     #region 클릭이동
 
-    void Click_Move()
+    public  void Click_Move()
     {
         if (Vector3.Distance(transform.position, hit.point) > 0.2f)
         {
@@ -454,7 +463,7 @@ public class Player_Fsm : Player_Base
         if (Can_BaseAttack_Check())
         {
             //기본공격
-            if (Target.transform.gameObject.activeSelf == false)
+            if (hit.transform.gameObject.activeSelf == false)
             {
                 Player_State = (int)PLAYER_STATE.Idle;
                 return;
@@ -468,7 +477,7 @@ public class Player_Fsm : Player_Base
         else if (Can_BaseAttack)
         {
             //추격
-            agent.SetDestination(Target.transform.position);
+            agent.SetDestination(hit.transform.position);
             isMove = true;
             animator.SetBool("isMove", isMove);
         }
@@ -494,7 +503,7 @@ public class Player_Fsm : Player_Base
             return false;
 
 
-        float dir = Vector3.Distance(Target.transform.position, transform.position);
+        float dir = Vector3.Distance(hit.transform.position, transform.position);
         if (dir <= BaseAttack_Range)
         {
             BaseAttack_time = 0f;
@@ -513,7 +522,7 @@ public class Player_Fsm : Player_Base
         {
             time += Time.deltaTime;
             //에이전트의 이동방향
-            Vector3 direction = Target.transform.position - transform.position;
+            Vector3 direction = hit.transform.position - transform.position;
             //회전각도(쿼터니언)산출
             Quaternion targetangle = Quaternion.LookRotation(direction);
             //선형보간 함수를 이용해 부드러운 회전

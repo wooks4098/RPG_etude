@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum PLAYER_STATE { Idle, ClickMove, Base_Attack, Dodge, SkillQ, SkillW, SkillE, SkillR, GetItem }
 
 public class Player_Base : MonoBehaviour
 {
-    public enum PLAYER_STATE { Idle, ClickMove, Base_Attack, Dodge, SkillQ, SkillW, SkillE, SkillR, GetItem }
 
 
     [SerializeField] protected float Damage;                   //플레이어 데미지
