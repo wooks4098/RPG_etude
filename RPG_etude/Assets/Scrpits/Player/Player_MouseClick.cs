@@ -16,6 +16,7 @@ public class Player_MouseClick : MonoBehaviour
 
     //스크립트
     [SerializeField] private Player_Fsm player;
+    [SerializeField] private Store_Npc store_Npc;
 
 
     private void Awake()
@@ -45,6 +46,10 @@ public class Player_MouseClick : MonoBehaviour
                 {   //기본공격
                     player.ChangeMouseHit(hitInfo);
                     player.ChangeState((int)PLAYER_STATE.Base_Attack);
+                }
+                else if(hitInfo.transform.tag == "Store_Npc")
+                {
+                    store_Npc.Show_Store();
                 }
                 else
                 {   //이동
