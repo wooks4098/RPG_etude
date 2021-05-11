@@ -26,7 +26,7 @@ public class Inventory : MonoBehaviour
 
     void TryOpenInventory()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) && !Store_Npc.Store_NpcOpened)
         {
             inventoryOpened = !inventoryOpened;
 
