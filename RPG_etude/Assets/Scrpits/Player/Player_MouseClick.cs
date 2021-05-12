@@ -47,7 +47,7 @@ public class Player_MouseClick : MonoBehaviour
                     player.ChangeMouseHit(hitInfo);
                     player.ChangeState((int)PLAYER_STATE.Base_Attack);
                 }
-                else if(hitInfo.transform.tag == "Store_Npc")
+                else if(hitInfo.transform.tag == "Store_Npc" && !Inventory.inventoryOpened)
                 {
                     store_Npc.Show_Store();
                 }

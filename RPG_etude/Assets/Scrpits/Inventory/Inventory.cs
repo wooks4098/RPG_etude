@@ -73,7 +73,7 @@ public class Inventory : MonoBehaviour
     void OpenInventory()
     {
         Inventory_base.SetActive(true);
-
+        inventoryOpened = true;
 
     }
 
@@ -81,6 +81,6 @@ public class Inventory : MonoBehaviour
     void CloseInventory()
     {
         Inventory_base.SetActive(false);
-
+        inventoryOpened = false;
     }
 }

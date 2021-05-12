@@ -10806,8 +10806,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4736352330856852}
   - component: {fileID: 95048880892753178}
-  - component: {fileID: 1968434746092649}
   - component: {fileID: 1968434746092650}
+  - component: {fileID: 1968434746092649}
   m_Layer: 0
   m_Name: Store_Npc
   m_TagString: Store_Npc
@@ -10825,10 +10825,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.89
-  m_Height: 2.44
+  m_Radius: 0.5
+  m_Height: 1.71
   m_Direction: 1
-  m_Center: {x: 0, y: 0.72, z: 0}
+  m_Center: {x: 0, y: 0.83, z: 0}
 --- !u!114 &1968434746092650
 MonoBehaviour:
   m_ObjectHideFlags: 0

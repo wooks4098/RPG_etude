@@ -29,7 +29,7 @@ public class Store_Npc : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && StoreBase.activeSelf && !Inventory.inventoryOpened)
+        if (Input.GetKeyDown(KeyCode.Escape) && StoreBase.activeSelf)
             Close_Store();
     }
 
