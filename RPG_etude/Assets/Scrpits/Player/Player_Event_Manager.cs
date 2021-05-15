@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events; 
 public class Player_Event_Manager : MonoBehaviour
 {
     private static Player_Event_Manager instance = null;
+
+    public UnityEvent onInputSpace;
+
 
     void Awake()
     {
@@ -26,6 +29,14 @@ public class Player_Event_Manager : MonoBehaviour
                 return null;
             }
             return instance;
+        }
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            onInputSpace.Invoke();
         }
     }
 
