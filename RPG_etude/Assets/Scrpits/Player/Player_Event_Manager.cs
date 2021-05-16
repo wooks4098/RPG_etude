@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events; 
+
+[System.Serializable]
+public class UnityEvent_test : UnityEvent<int>
+{
+
+}
+
 public class Player_Event_Manager : MonoBehaviour
 {
     private static Player_Event_Manager instance = null;
 
-    public UnityEvent onInputSpace;
-
+    public UnityEvent_test oninputspace;
 
     void Awake()
     {
@@ -36,7 +42,7 @@ public class Player_Event_Manager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            onInputSpace.Invoke();
+            //onInputSpace.Invoke();
         }
     }
 

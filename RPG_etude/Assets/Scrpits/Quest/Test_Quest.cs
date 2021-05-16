@@ -10,7 +10,7 @@ public class Test_Quest : MonoBehaviour
     {
         var p = FindObjectOfType<Player_Event_Manager>();
         //등록
-        p.onInputSpace.AddListener(SlimeCheck);
+        //p.onInputSpace.AddListener(SlimeCheck);
         //제거
         //p.onInputSpace.RemoveListener(SlimeCheck);
 
