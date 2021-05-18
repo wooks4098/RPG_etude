@@ -35,7 +35,6 @@ public class Player_MouseClick : MonoBehaviour
         {
             if (Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out hitInfo))
             {
-                Debug.Log(hitInfo.transform.tag + "클릭");
                 if (hitInfo.transform.tag == "Item")
                 {   //아이템 획득
                     Item_Info = hitInfo;

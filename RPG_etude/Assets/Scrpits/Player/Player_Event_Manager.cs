@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events; 
 
 [System.Serializable]
-public class UnityEvent_test : UnityEvent<int>
+public class Kill_Monster : UnityEvent<string>
 {
 
 }
@@ -13,7 +13,7 @@ public class Player_Event_Manager : MonoBehaviour
 {
     private static Player_Event_Manager instance = null;
 
-    public UnityEvent_test oninputspace;
+    public Kill_Monster kill_Monster;
 
     void Awake()
     {
@@ -51,7 +51,13 @@ public class Player_Event_Manager : MonoBehaviour
     #region 몬스터 처치
     public void Kill_Slime()
     {
+        kill_Monster.Invoke("Slime");
+        Debug.Log("슬라임 처치");
+    }
 
+    public void Kill_otherMonster()
+    {
+        kill_Monster.Invoke("otherMonster");
     }
     #endregion
 

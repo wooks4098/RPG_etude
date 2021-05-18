@@ -195,7 +195,6 @@ public class Slime : MonoBehaviour
     {
         if (Hp <= 0)
             return;
-        Debug.Log("슬라임 피격");
         Hp -= _Damage;
         Blood.transform.forward = Player.position - Blood.transform.position;
         Blood.transform.Rotate(0, 90, 0);
@@ -226,6 +225,7 @@ public class Slime : MonoBehaviour
         if (!isDie && Hp <= 0)
         {
             StartCoroutine("Die_ani");
+            Player_Event_Manager.Instance.Kill_Slime();
         }
     }
 
