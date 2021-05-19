@@ -159,6 +159,8 @@ public class Player_Fsm : Player_Base
             Quaternion targetangle = Quaternion.LookRotation(direction);
             //선형보간 함수를 이용해 부드러운 회전
             animator.transform.rotation = Quaternion.Slerp(animator.transform.rotation, targetangle, Time.deltaTime * 8.0f);
+            animator.transform.eulerAngles = new Vector3(0, animator.transform.rotation.eulerAngles.y, 0);
+
         }
     }
 
@@ -544,6 +546,7 @@ public class Player_Fsm : Player_Base
             agent.speed *= 2;
             agent.SetDestination(hit.point);
             animator.SetTrigger("Dodge");
+            StartCoroutine("Skill_Look");
             player_ui.Skill_Use_Dodge(Skill_Dodge_CoolTime);
 
             CanUseDodge = false;

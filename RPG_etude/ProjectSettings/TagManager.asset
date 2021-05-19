@@ -11,6 +11,7 @@ TagManager:
   - FxTemporaire
   - Item
   - Store_Npc
+  - Quest_Npc
   layers:
   - Default
   - TransparentFX

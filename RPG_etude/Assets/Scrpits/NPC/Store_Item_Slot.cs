@@ -40,4 +40,7 @@ public class Store_Item_Slot : MonoBehaviour
     {
         inventory.AcquireItem(item);
     }
+
+
+
 }
